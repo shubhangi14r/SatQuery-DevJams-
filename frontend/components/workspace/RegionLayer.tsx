@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Polygon, Polyline, CircleMarker, useMapEvents } from "react-leaflet";
+import { useMemo, useState } from "react";
+import { Polygon, Polyline, CircleMarker, Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
 import type { LatLngTuple } from "@/lib/mapConfig";
 
 export type Region = {
@@ -38,8 +39,13 @@ export function RegionLayer({
   onDrawCancel,
 }: RegionLayerProps) {
   const [draft, setDraft] = useState<LatLngTuple[]>([]);
+  const [cursor, setCursor] = useState<LatLngTuple | null>(null);
+  const cursorIcon = useMemo(() => L.divIcon({ className: "", html: `<div style="border:1px solid #d98f4e;background:#171a19;color:#d98f4e;padding:3px 6px;font:10px monospace;white-space:nowrap;border-radius:2px;">${draft.length} POINTS</div>`, iconSize: undefined }), [draft.length]);
 
   useMapEvents({
+    mousemove(e) {
+      if (drawMode) setCursor([e.latlng.lat, e.latlng.lng]);
+    },
     click(e) {
       if (!drawMode) return;
       setDraft((prev) => [...prev, [e.latlng.lat, e.latlng.lng]]);
@@ -81,11 +87,13 @@ export function RegionLayer({
         />
       ))}
 
+      {drawMode && cursor && draft.length > 0 && <Marker position={cursor} icon={cursorIcon} interactive={false} />}
+
       {drawMode && draft.length > 0 && (
         <>
           <Polyline
-            positions={draft}
-            pathOptions={{ color: SIGNAL, weight: 1.5, dashArray: "4 4" }}
+            positions={cursor ? [...draft, cursor] : draft}
+            pathOptions={{ color: SIGNAL, weight: 2, dashArray: "4 4" }}
           />
           {draft.map((point, i) => (
             <CircleMarker

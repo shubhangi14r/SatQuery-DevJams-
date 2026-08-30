@@ -176,6 +176,20 @@ body::before {
   animation: star-twinkle 6s ease-in-out infinite;
 }
 
+@keyframes map-result-pulse {
+  0% { transform: scale(0.45); opacity: 0.9; }
+  70%, 100% { transform: scale(1.6); opacity: 0; }
+}
+
+.map-result-pulse span {
+  display: block;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-signal);
+  border-radius: 999px;
+  animation: map-result-pulse 1.2s ease-out 2;
+}
+
 /* ============================================================================
    REDUCED MOTION
    Scan-beam, radar-ping, count-up and panel motion are all disabled here.

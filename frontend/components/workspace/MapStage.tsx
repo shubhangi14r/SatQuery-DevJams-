@@ -41,6 +41,7 @@ export function MapStage({ children }: MapStageProps) {
   const [center, setCenter] = useState<LatLngTuple>(MAP_DEFAULTS.center);
   const regions = useMapStore((s) => s.regions);
   const addRegion = useMapStore((s) => s.addRegion);
+  const [legendOpen, setLegendOpen] = useState(true);
 
   const handleReady = useCallback((map: LeafletMap) => {
     mapRef.current = map;
@@ -158,6 +159,20 @@ export function MapStage({ children }: MapStageProps) {
         >
           <RotateCcw size={14} />
         </button>
+      </div>
+
+      <div className="absolute bottom-4 right-4 z-20 flex items-end gap-2">
+        {legendOpen && (
+          <div className="rounded-hard border border-line bg-void-2/85 px-3 py-2 backdrop-blur-sm">
+            <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faint">Land cover</div>
+            <div className="flex flex-wrap gap-x-3 gap-y-1">
+              {[['#5ea8d6', 'water'], ['#7a9b76', 'vegetation'], ['#c24b3f', 'built-up'], ['#d98f4e', 'bare soil']].map(([color, label]) => (
+                <span key={label} className="flex items-center gap-1.5 font-mono text-[10px] text-ink-dim"><span className="h-2 w-2 rounded-sm" style={{ backgroundColor: color }} />{label}</span>
+              ))}
+            </div>
+          </div>
+        )}
+        <button type="button" onClick={() => setLegendOpen((open) => !open)} aria-label={legendOpen ? "Collapse land cover legend" : "Expand land cover legend"} aria-expanded={legendOpen} className="flex h-7 w-7 items-center justify-center rounded-hard border border-line bg-void-2/85 font-mono text-[10px] text-ink-faint backdrop-blur-sm hover:text-ink">L</button>
       </div>
 
       {/* Coordinate readout — live, tracks map center on moveend */}

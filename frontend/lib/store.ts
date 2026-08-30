@@ -78,7 +78,7 @@ let messageId = 0;
 export const useMapStore = create<WorkspaceState>((set) => ({
   rasters: [],
   activeYear: null,
-  classificationOn: true,
+  classificationOn: false,
   drawMode: false,
   geometry: null,
   highlights: null,

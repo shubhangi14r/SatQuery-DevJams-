@@ -6,6 +6,7 @@ import L, { type Map as LeafletMap } from "leaflet";
 import { cn } from "@/lib/utils";
 import { MAP_DEFAULTS, ARAL_SEA, type LatLngTuple } from "@/lib/mapConfig";
 import { getGibsTileUrl, DEFAULT_GIBS_LAYER_ID, type GibsLayerId } from "@/lib/gibs";
+import { classificationUrl } from "@/lib/api";
 import { useMapStore } from "@/lib/store";
 import { MapControls } from "./MapControls";
 import { RegionLayer, type Region } from "./RegionLayer";
@@ -34,19 +35,29 @@ const CLASS_COLORS: Record<string, string> = {
   built_up: "#c24b3f",
 };
 
+function firstCoordinate(value: unknown): [number, number] | null {
+  if (Array.isArray(value) && value.length >= 2 && typeof value[0] === "number" && typeof value[1] === "number") return [value[0], value[1]];
+  if (Array.isArray(value)) for (const item of value) { const point = firstCoordinate(item); if (point) return point; }
+  return null;
+}
+
 /** Renders detected land-cover polygons from /api/detect over the imagery. */
 function HighlightLayer() {
   const highlights = useMapStore((s) => s.highlights);
   if (!highlights || highlights.features.length === 0) return null;
+  const first = firstCoordinate(highlights.features[0].geometry.coordinates);
   return (
+    <>
     <GeoJSON
-      key={highlights.features.length}
+      key={JSON.stringify(highlights)}
       data={highlights}
       style={(feature) => {
         const color = CLASS_COLORS[feature?.properties.class] ?? "#d98f4e";
         return { color, weight: 1, fillOpacity: 0.35 };
       }}
     />
+    {first && <Marker position={[first[1], first[0]]} icon={L.divIcon({ className: "map-result-pulse", html: "<span></span>", iconSize: [32, 32], iconAnchor: [16, 16] })} interactive={false} />}
+    </>
   );
 }
 
@@ -56,6 +67,17 @@ function HighlightLayer() {
  * changes up to MapStage (which lives outside the map's own DOM tree
  * and needs the instance for the toolbar's "reset view" button).
  */
+function LayerToggle() {
+  const classified = useMapStore((s) => s.classificationOn);
+  const toggle = useMapStore((s) => s.toggleClassification);
+  return (
+    <div className="pointer-events-auto absolute left-24 top-4 z-[1000] flex overflow-hidden rounded-hard border border-line bg-void-2/85 font-mono text-[10px] uppercase tracking-[0.1em] backdrop-blur-sm">
+      <button type="button" onClick={() => classified && toggle()} aria-pressed={!classified} className={`px-2 py-1.5 transition-colors ${!classified ? "bg-signal-dim/40 text-signal" : "text-ink-faint hover:text-ink"}`}>Satellite</button>
+      <button type="button" onClick={() => !classified && toggle()} aria-pressed={classified} className={`border-l border-line px-2 py-1.5 transition-colors ${classified ? "bg-signal-dim/40 text-signal" : "text-ink-faint hover:text-ink"}`}>Classified</button>
+    </div>
+  );
+}
+
 function MapBridge({
   onReady,
   onViewChange,
@@ -116,6 +138,8 @@ export function MapView({
   onViewChange,
 }: MapViewProps) {
   const activeDate = useMapStore((s) => s.activeDate);
+  const classificationOn = useMapStore((s) => s.classificationOn);
+  const activeYear = useMapStore((s) => s.activeYear);
   const tileUrl = useMemo(
     () => getGibsTileUrl(gibsLayerId, activeDate || date),
     [gibsLayerId, activeDate, date],
@@ -133,6 +157,7 @@ export function MapView({
     >
       <TileLayer
         url={tileUrl}
+        opacity={classificationOn ? 0 : 1}
         tileSize={256}
         maxNativeZoom={9}
         noWrap
@@ -143,6 +168,11 @@ export function MapView({
         attribution="Imagery &copy; NASA EOSDIS GIBS"
       />
 
+      {classificationOn && activeYear && (
+        <TileLayer url={classificationUrl(activeYear)} opacity={0.82} tileSize={256} noWrap bounds={[[-85.0511, -179], [85.0511, 179]]} />
+      )}
+
+      <LayerToggle />
       <Marker position={ARAL_SEA.center} icon={locationIcon} />
 
       <RegionLayer
