@@ -143,7 +143,7 @@ export function ChatPanel() {
           <div className="mb-3 flex flex-col gap-1.5">
             {SUGGESTED_PROMPTS.map(({ text, icon: Icon }) => (
               <button key={text} type="button" data-cursor="action" onClick={() => handleSend(text)} className="group flex items-center gap-2 rounded-hard border border-line bg-void-3/50 px-3 py-2 text-left text-caption text-ink transition-colors hover:border-signal/60 hover:bg-void-3 hover:text-signal-bright">
-                <Icon size={14} strokeWidth={1.5} className="shrink-0 text-ink-faint transition-colors group-hover:text-signal" aria-hidden="true" />
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-hard border border-line-bright/60 bg-void-2 text-ink-dim transition-colors group-hover:border-signal/70 group-hover:bg-signal/10 group-hover:text-signal"><Icon size={13} strokeWidth={1.5} aria-hidden="true" /></span>
                 <span className="flex-1">{text}</span>
                 <ArrowRight size={13} className="-translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" aria-hidden="true" />
               </button>
