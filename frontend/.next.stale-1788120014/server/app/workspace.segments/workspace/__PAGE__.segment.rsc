@@ -1,0 +1,24 @@
+1:"$Sreact.fragment"
+2:I[35267,["/_next/static/chunks/2eiw0_k60u_as.js","/_next/static/chunks/3w91bxwz6xd56.js","/_next/static/chunks/2lvr2pt70qn14.js","/_next/static/chunks/3ojk30_v47-ky.js","/_next/static/chunks/16l6ty7tthgb7.js"],"WorkspaceShell"]
+3:I[97367,["/_next/static/chunks/2eiw0_k60u_as.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[97367,["/_next/static/chunks/2eiw0_k60u_as.js"],"ViewportBoundary"]
+9:I[97367,["/_next/static/chunks/2eiw0_k60u_as.js"],"MetadataBoundary"]
+a:I[27201,["/_next/static/chunks/2eiw0_k60u_as.js"],"IconMark"]
+c:I[39756,["/_next/static/chunks/2eiw0_k60u_as.js"],"default"]
+d:I[37457,["/_next/static/chunks/2eiw0_k60u_as.js"],"default"]
+10:I[73324,["/_next/static/chunks/2eiw0_k60u_as.js"],"Cursor"]
+:HL["/_next/static/chunks/40kerww__b8rg.css","style"]
+7:X
+f:X
+f:C
+0:{"buildId":"n3zfWHDWSKC1sSjH4QlnE","data":[{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/_next/static/chunks/3w91bxwz6xd56.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/2lvr2pt70qn14.js","async":true}],["$","script","script-2",{"src":"/_next/static/chunks/3ojk30_v47-ky.js","async":true}],["$","script","script-3",{"src":"/_next/static/chunks/16l6ty7tthgb7.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Workspace — SATQUERY"}],["$","meta","1",{"name":"description","content":"Query and monitor the planet's surface over time via satellite imagery."}],["$","link","2",{"rel":"icon","href":"/favicon.ico?favicon.2vob68tjqpejf.ico","sizes":"256x256","type":"image/x-icon"}],["$","$La","3",{}]]}]}]}],null]}],"isPartial":"$@b","staleTime":"$7","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}]}]]}],"isPartial":"$@e","staleTime":"$7","varyParams":"$f"},{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/40kerww__b8rg.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/2eiw0_k60u_as.js","async":true}]],["$","html",null,{"lang":"en","className":"h-full","children":["$","body",null,{"className":"min-h-full antialiased","children":[["$","$L10",null,{}],["$","$Lc",null,{"parallelRouterKey":"children","template":["$","$Ld",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]]}]]}]}]]}],"isPartial":"$@11","staleTime":"$7","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@12","rootVaryParams":null,"needsRuntimeRequest":"$@13"}
+5:null
+7:300
+13:true
+7:C
+12:0
+b:"$undefined"
+e:"$undefined"
+11:"$undefined"
+6:"$undefined"
