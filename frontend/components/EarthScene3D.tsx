@@ -32,12 +32,11 @@ function clamp01(v: number) {
 const EARTH_TEXTURES = [
   "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg",
   "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg",
-  "https://threejs.org/examples/textures/planets/earth_specular_2048.jpg",
 ];
 
 function Earth({ progress }: { progress: React.RefObject<number> }) {
   const group = React.useRef<THREE.Group>(null);
-  const [colorMap, normalMap, specularMap] = useLoader(THREE.TextureLoader, EARTH_TEXTURES);
+  const [colorMap, normalMap] = useLoader(THREE.TextureLoader, EARTH_TEXTURES);
 
   useFrame((_, delta) => {
     if (!group.current) return;
@@ -46,16 +45,15 @@ function Earth({ progress }: { progress: React.RefObject<number> }) {
 
   return (
     <group ref={group} rotation={[0.35, 0, 0.12]}>
-      {/* 2K public-domain-style Three.js example maps: color, terrain relief, ocean gloss. */}
+      {/* Natural Earth surface: detailed relief with a fully matte, non-glossy finish. */}
       <mesh>
         <sphereGeometry args={[EARTH_RADIUS, 64, 48]} />
-        <meshPhongMaterial
+        <meshStandardMaterial
           map={colorMap}
           bumpMap={normalMap}
           bumpScale={0.045}
-          specularMap={specularMap}
-          specular={new THREE.Color("#9cc5c8")}
-          shininess={18}
+          roughness={1}
+          metalness={0}
         />
       </mesh>
 
