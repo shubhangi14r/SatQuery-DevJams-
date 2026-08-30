@@ -14,6 +14,7 @@ export interface ChatMessage {
   id: number;
   role: "user" | "assistant";
   text: string;
+  stats?: Record<string, unknown>;
 }
 
 export interface Evidence {
@@ -60,7 +61,8 @@ interface WorkspaceState {
   setHighlights: (highlights: HighlightFeatureCollection | null) => void;
   setAnomalies: (anomalies: Anomaly[]) => void;
   setMap: (map: LeafletMapType | null) => void;
-  addMessage: (role: "user" | "assistant", text: string) => void;
+  addMessage: (role: "user" | "assistant", text: string, stats?: Record<string, unknown>) => void;
+  clearMessages: () => void;
   setEvidence: (evidence: Evidence | null) => void;
   setSending: (sending: boolean) => void;
   setRegionResult: (result: RegionAnalysis | null) => void;
@@ -101,8 +103,9 @@ export const useMapStore = create<WorkspaceState>((set) => ({
   setHighlights: (highlights) => set({ highlights }),
   setAnomalies: (anomalies) => set({ anomalies }),
   setMap: (map) => set({ map }),
-  addMessage: (role, text) =>
-    set((s) => ({ messages: [...s.messages, { id: messageId++, role, text }] })),
+  addMessage: (role, text, stats) =>
+    set((s) => ({ messages: [...s.messages, { id: messageId++, role, text, stats }] })),
+  clearMessages: () => set({ messages: [], highlights: null }),
   setEvidence: (evidence) => set({ evidence }),
   setSending: (sending) => set({ sending }),
   setRegionResult: (regionResult) => set({ regionResult }),
