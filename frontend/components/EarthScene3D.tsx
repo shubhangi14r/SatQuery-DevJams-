@@ -34,6 +34,34 @@ const EARTH_TEXTURES = [
   "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg",
 ];
 
+const atmosphereUniforms = {
+  uColor: { value: new THREE.Color("#8ed9ef") },
+  uIntensity: { value: 0.5 },
+};
+
+const atmosphereVertex = /* glsl */ `
+  varying vec3 vNormal;
+  varying vec3 vView;
+  void main() {
+    vNormal = normalize(normalMatrix * normal);
+    vec4 mv = modelViewMatrix * vec4(position, 1.0);
+    vView = normalize(-mv.xyz);
+    gl_Position = projectionMatrix * mv;
+  }
+`;
+
+const atmosphereFragment = /* glsl */ `
+  uniform vec3 uColor;
+  uniform float uIntensity;
+  varying vec3 vNormal;
+  varying vec3 vView;
+  void main() {
+    float fresnel = pow(1.0 - max(dot(vNormal, vView), 0.0), 2.6);
+    float falloff = smoothstep(0.0, 1.0, fresnel);
+    gl_FragColor = vec4(uColor, falloff * uIntensity);
+  }
+`;
+
 function Earth({ progress }: { progress: React.RefObject<number> }) {
   const group = React.useRef<THREE.Group>(null);
   const [colorMap, normalMap] = useLoader(THREE.TextureLoader, EARTH_TEXTURES);
@@ -54,6 +82,19 @@ function Earth({ progress }: { progress: React.RefObject<number> }) {
           bumpScale={0.045}
           roughness={1}
           metalness={0}
+        />
+      </mesh>
+
+      <mesh scale={1.045}>
+        <sphereGeometry args={[EARTH_RADIUS, 64, 48]} />
+        <shaderMaterial
+          uniforms={atmosphereUniforms}
+          vertexShader={atmosphereVertex}
+          fragmentShader={atmosphereFragment}
+          side={THREE.BackSide}
+          blending={THREE.AdditiveBlending}
+          transparent
+          depthWrite={false}
         />
       </mesh>
 
@@ -169,9 +210,10 @@ function CameraRig({ progress }: { progress: React.RefObject<number> }) {
 function Scene({ progress }: { progress: React.RefObject<number> }) {
   return (
     <>
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[-4, 2, 5]} intensity={1.6} color="#eaf6ff" />
-      <directionalLight position={[3, -1, -2]} intensity={0.12} color="#d9f3ff" />
+      <ambientLight intensity={0.48} color="#b9d8e8" />
+      <hemisphereLight args={["#d9f3ff", "#172638", 0.42]} />
+      <directionalLight position={[-4, 2, 5]} intensity={1.85} color="#eaf6ff" />
+      <directionalLight position={[3, -1, -2]} intensity={0.2} color="#9cc5d8" />
       <React.Suspense fallback={null}>
         <Earth progress={progress} />
       </React.Suspense>
